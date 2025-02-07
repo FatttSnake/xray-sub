@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "xray-sub",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-04",
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "CLOUD_FLARE_YES_API": "{Replace with the real API url}",
+    "CLOUD_FLARE_YES_KEY": "{Replace with the real API key}"
+  }
+}
