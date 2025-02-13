@@ -1,6 +1,5 @@
 {
 	"compilerOptions": {
-		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
 		"baseUrl": "src",
 		"declaration": true,
@@ -16,9 +15,8 @@
 		"resolveJsonModule": true,
 		"rootDir": ".",
 		"skipLibCheck": true,
-		"strict": false,
+		"strict": true,
 		"traceResolution": false,
-		"outDir": "",
 		"target": "esnext",
 		"module": "esnext",
 		"types": [
