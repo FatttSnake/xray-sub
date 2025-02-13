@@ -1,6 +1,6 @@
-import {Context} from "hono"
-import {OpenAPIRoute, Str} from "chanfana"
-import {objectOutputType, z, ZodEnum, ZodOptional, ZodString, ZodTypeAny} from "zod"
+import { Context } from 'hono'
+import { OpenAPIRoute, Str } from 'chanfana'
+import { objectOutputType, z, ZodEnum, ZodOptional, ZodString, ZodTypeAny } from 'zod'
 
 export class CloudFlareYes extends OpenAPIRoute {
     schema = {
@@ -9,11 +9,12 @@ export class CloudFlareYes extends OpenAPIRoute {
         request: {
             query: z
                 .object({
-                    lang: z.enum(['EN', 'ZH'], {description: 'Language of remark'}).optional(),
+                    lang: z.enum(['EN', 'ZH'], { description: 'Language of remark' }).optional(),
                     remark: Str({
                         required: false,
                         default: '{NAME}',
-                        description: 'Remark\'s template, in placeholder format<br>' +
+                        description:
+                            "Remark's template, in placeholder format<br>" +
                             '{NAME}: Name of the node<br>' +
                             '{PROTOCOL}: Protocol of the node<br>' +
                             '{UUID}: UUID of the node<br>' +
@@ -25,16 +26,16 @@ export class CloudFlareYes extends OpenAPIRoute {
                             '{NODE}: Cloudflare node<br>' +
                             '{SPEED}: Download speed<br>' +
                             '{TIME}: Update time'
-                    }).optional(),
-                    name: Str({description: 'Name of the node'}),
-                    protocol: z.enum(['vmess', 'vless'], {description: 'Protocol of the node'}),
-                    uuid: Str({description: 'UUID of the node'}),
+                    }),
+                    name: Str({ description: 'Name of the node' }),
+                    protocol: z.enum(['vmess', 'vless'], { description: 'Protocol of the node' }),
+                    uuid: Str({ description: 'UUID of the node' })
                 })
                 .passthrough()
         },
         responses: {
             '200': {
-                description: "Return xray url list"
+                description: 'Return xray url list'
             }
         }
     }
@@ -53,7 +54,6 @@ export class CloudFlareYes extends OpenAPIRoute {
 
         const urlList = this.generateUrlList(cloudFlareYesResponse, data.query)
 
-
         return c.text(urlList.join('\n'))
     }
 
@@ -63,29 +63,47 @@ export class CloudFlareYes extends OpenAPIRoute {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({key})
+            body: JSON.stringify({ key })
         })
     }
 
-    generateUrlList(cloudFlareYesResponse: ICloudFlareYesResponse, queryParams: objectOutputType<{
-        lang: ZodOptional<ZodEnum<["EN", "ZH"]>>;
-        remark: ZodString;
-        name: ZodString;
-        protocol: ZodEnum<["vmess", "vless"]>;
-        uuid: ZodString;
-    }, ZodTypeAny, "passthrough">) {
-        const {lang, remark, name, protocol, uuid, ...otherParams} = queryParams
+    generateUrlList(
+        cloudFlareYesResponse: ICloudFlareYesResponse,
+        queryParams: objectOutputType<
+            {
+                lang: ZodOptional<ZodEnum<['EN', 'ZH']>>
+                remark: ZodString
+                name: ZodString
+                protocol: ZodEnum<['vmess', 'vless']>
+                uuid: ZodString
+            },
+            ZodTypeAny,
+            'passthrough'
+        >
+    ) {
+        const { lang, remark, name, protocol, uuid, ...otherParams } = queryParams
 
-        return (cloudFlareYesResponse.info as ICloudFlareYesItem[]).map((item: ICloudFlareYesItem) => {
-            const url = new URL(`${protocol}://${uuid}@${item.ip}:443#${this.formatRemark(lang, remark, name, protocol, uuid, item)}`)
-            Object.entries(otherParams).forEach(([key, value]: [string, string]) => {
-                url.searchParams.append(key, value)
-            })
-            return url.toString()
-        })
+        return (cloudFlareYesResponse.info as ICloudFlareYesItem[]).map(
+            (item: ICloudFlareYesItem) => {
+                const url = new URL(
+                    `${protocol}://${uuid}@${item.ip}:443#${this.formatRemark(lang, remark, name, protocol, uuid, item)}`
+                )
+                Object.entries(otherParams).forEach(([key, value]) => {
+                    url.searchParams.append(key, value as string)
+                })
+                return url.toString()
+            }
+        )
     }
 
-    formatRemark(lang: "EN" | "ZH", remark: string, name: string, protocol: 'vmess' | 'vless', uuid: string, item: ICloudFlareYesItem) {
+    formatRemark(
+        lang: 'EN' | 'ZH' | undefined,
+        remark: string,
+        name: string,
+        protocol: 'vmess' | 'vless',
+        uuid: string,
+        item: ICloudFlareYesItem
+    ) {
         return remark
             .replace('{NAME}', name)
             .replace('{PROTOCOL}', protocol)
@@ -100,7 +118,7 @@ export class CloudFlareYes extends OpenAPIRoute {
             .replace('{TIME}', item.time)
     }
 
-    translateLine(lang: 'EN' | 'ZH', line: string) {
+    translateLine(lang: 'EN' | 'ZH' | undefined, line: string) {
         switch (lang) {
             case 'EN':
                 switch (line) {

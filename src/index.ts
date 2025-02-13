@@ -1,13 +1,13 @@
-import {fromHono} from "chanfana"
-import {Hono} from "hono"
-import {CloudFlareYes} from "./endpoints/cloudFlareYes"
+import { fromHono } from 'chanfana'
+import { Hono } from 'hono'
+import { CloudFlareYes } from './endpoints/cloudFlareYes'
 
 // Start a Hono app
 const app = new Hono()
 
 // Setup OpenAPI registry
 const openapi = fromHono(app, {
-    docs_url: "/doc"
+    docs_url: '/doc'
 })
 
 // Register OpenAPI endpoints
