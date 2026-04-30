@@ -96,7 +96,6 @@ export class ApiUouinCom extends OpenAPIRoute {
 
         Object.entries(uouinResponse.data).forEach(([line, value]) => {
             value.info.forEach((item) => {
-                const str = `${protocol}://${uuid}@${line === 'ipv6' ? `[${item.ip}]` : item.ip}:443#${this.formatRemark(lang, remark, name, protocol, uuid, line, value.uptime, item)}`
                 const url = new URL(
                     `${protocol}://${uuid}@${line === 'ipv6' ? `[${item.ip}]` : item.ip}:443#${this.formatRemark(lang, remark, name, protocol, uuid, line, value.uptime, item)}`
                 )
@@ -121,17 +120,19 @@ export class ApiUouinCom extends OpenAPIRoute {
         time: number,
         item: UouinItem
     ) {
-        return remark
-            .replace('{NAME}', name)
-            .replace('{PROTOCOL}', protocol)
-            .replace('{UUID}', uuid)
-            .replace('{LINE}', this.translateLine(lang, line))
-            .replace('{TIME}', this.formatDate(time))
-            .replace('{IP}', item.ip)
-            .replace('{LOSS}', item.loss)
-            .replace('{LATENCY}', item.ping)
-            .replace('{SPEED}', item.speed)
-            .replace('{BANDWIDTH}', item.bandwidth)
+        return encodeURIComponent(
+            remark
+                .replace('{NAME}', name)
+                .replace('{PROTOCOL}', protocol)
+                .replace('{UUID}', uuid)
+                .replace('{LINE}', this.translateLine(lang, line))
+                .replace('{TIME}', this.formatDate(time))
+                .replace('{IP}', item.ip)
+                .replace('{LOSS}', item.loss)
+                .replace('{LATENCY}', item.ping)
+                .replace('{SPEED}', item.speed)
+                .replace('{BANDWIDTH}', item.bandwidth)
+        )
     }
 
     translateLine(lang: 'EN' | 'ZH' | undefined, line: string) {
