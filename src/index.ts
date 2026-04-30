@@ -1,6 +1,7 @@
 import { fromHono } from 'chanfana'
 import { Hono } from 'hono'
 import { CloudFlareYes } from './endpoints/cloudFlareYes'
+import { ApiUouinCom } from './endpoints/apiUouinCom'
 
 // Start a Hono app
 const app = new Hono()
@@ -12,6 +13,7 @@ const openapi = fromHono(app, {
 
 // Register OpenAPI endpoints
 openapi.get('/CloudFlareYes', CloudFlareYes)
+openapi.get('/ApiUouinCom', ApiUouinCom)
 
 // Export the Hono app
 export default app

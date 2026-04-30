@@ -14,3 +14,18 @@ interface ICloudFlareYesResponse {
     info: ICloudFlareYesItem[] | string
     total?: number
 }
+
+interface UouinItem {
+    ip: string
+    loss: string
+    ping: string
+    speed: string
+    bandwidth: string
+}
+
+interface UouinResponse {
+    statu: boolean
+    code: number
+    msg: string
+    data: Record<string, { code: number; uptime: number; info: UouinItem[] }>
+}
