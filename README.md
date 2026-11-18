@@ -71,7 +71,7 @@ https://{Your Cloudflare worker domain}/doc
 | Parameter | Type               | Default | Required | Description                                                                                                                           |
 |-----------|--------------------|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------|
 | lang      | 'EN' \| 'ZH'       |         | ×        | Language of remark                                                                                                                    |
-| remark    | string             | {NAME}  | ✔        | Remark's template, in placeholder format. See [Remark Template](#remark-template)                                                     |
+| remark    | string             | {NAME}  | ×        | Remark's template, in placeholder format. See the remark template below                                                               |
 | name      | string             |         | ✔        | Name of the node                                                                                                                      |
 | protocol  | 'vmess' \| 'vless' |         | ✔        | Protocol of the node                                                                                                                  |
 | uuid      | string             |         | ✔        | UUID of the node                                                                                                                      |
@@ -101,7 +101,7 @@ https://example.workers.dev/CloudFlareYes?lang=ZH&remark=%7BNAME%7D%20-%20%7BLIN
 
 ### ApiUouinCom
 
-| Endpoint     | /CloudFlareYes                           |
+| Endpoint     | /ApiUouinCom                             |
 |--------------|------------------------------------------|
 | Method       | GET                                      |
 | Description  | Generate xray url list via api.uouin.com |
@@ -113,7 +113,7 @@ https://example.workers.dev/CloudFlareYes?lang=ZH&remark=%7BNAME%7D%20-%20%7BLIN
 | Parameter | Type               | Default | Required | Description                                                                                                                           |
 |-----------|--------------------|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------|
 | lang      | 'EN' \| 'ZH'       |         | ×        | Language of remark                                                                                                                    |
-| remark    | string             | {NAME}  | ✔        | Remark's template, in placeholder format. See [Remark Template](#remark-template)                                                     |
+| remark    | string             | {NAME}  | ×        | Remark's template, in placeholder format. See the remark template below                                                               |
 | name      | string             |         | ✔        | Name of the node                                                                                                                      |
 | protocol  | 'vmess' \| 'vless' |         | ✔        | Protocol of the node                                                                                                                  |
 | uuid      | string             |         | ✔        | UUID of the node                                                                                                                      |
