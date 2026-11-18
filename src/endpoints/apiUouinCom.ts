@@ -46,7 +46,7 @@ export class ApiUouinCom extends OpenAPIRoute {
             return c.text('')
         }
         const uouinResponse = await response.json<UouinResponse>()
-        if (!uouinResponse.statu) {
+        if (uouinResponse.state < 0) {
             return c.text(uouinResponse.msg)
         }
 
@@ -70,8 +70,9 @@ export class ApiUouinCom extends OpenAPIRoute {
 
     generateSign() {
         const timestamp = Date.now()
-        const keyMd5 = this.hex_md5('DdlTxtN0sUOu')
-        const signStr = `${keyMd5}70cloudflareapikey${timestamp}`
+        const keyMd5 = this.hex_md5('xj3jxQT5ux4cqapDGIP3nQg6BoH3QzTL')
+        const saltMd5 = this.hex_md5('x64vpYRKglsGquoE')
+        const signStr = `${keyMd5}IAGvmXaAqAppIw6RwjDct9o3rW4KwPjw${saltMd5}${timestamp}`
         const hash = this.hex_md5(signStr)
 
         return {
@@ -95,6 +96,9 @@ export class ApiUouinCom extends OpenAPIRoute {
         const urlList: string[] = []
 
         Object.entries(uouinResponse.data).forEach(([line, value]) => {
+            if (value.code !== 200) {
+                return
+            }
             value.info.forEach((item) => {
                 const url = new URL(
                     `${protocol}://${uuid}@${line === 'ipv6' ? `[${item.ip}]` : item.ip}:443#${this.formatRemark(lang, remark, name, protocol, uuid, line, value.uptime, item)}`
