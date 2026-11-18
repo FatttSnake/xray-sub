@@ -24,7 +24,7 @@ interface UouinItem {
 }
 
 interface UouinResponse {
-    statu: boolean
+    state: number
     code: number
     msg: string
     data: Record<string, { code: number; uptime: number; info: UouinItem[] }>
